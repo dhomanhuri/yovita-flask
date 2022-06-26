@@ -137,6 +137,7 @@ def _login(data):
         conn = get_db_connection()
         cur = conn.cursor()
         email = data['email']
+        role = data['level']
         passwd = data['password'].encode('utf-8')
         cur.execute(f'''
             SELECT * FROM users WHERE email = '{email}';
@@ -148,7 +149,7 @@ def _login(data):
         if user[5] == 0: return jsonify({'message': 'Please confirm your email!' }), 401
         isValid = bcrypt.checkpw(passwd, user[3].encode('utf-8'))
         if isValid:
-            return jsonify({'token': jwt.encode({'email': email, 'age': (round(time.time() + 86400)) }, SECRET_KEY)})
+            return jsonify({'token': jwt.encode({'email': email, 'age': (round(time.time() + 86400)) }, SECRET_KEY),'role':role})
         return jsonify({'message': 'Email or password does not match' }), 401
     except:
         return jsonify({'message': 'Something went wrong' }), 500
