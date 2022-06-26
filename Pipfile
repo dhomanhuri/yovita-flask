@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+sklearn = "*"
+flask = "*"
+numpy = "*"
+matplotlib = "*"
+pandas = "*"
+psycopg2-binary = "*"
+gunicorn = "*"
+pyjwt = "*"
+python-dotenv = "*"
+bcrypt = "*"
+plotly = "*"
+kaleido = "*"
+flask-cors = "*"
+mysql-connector-python = "*"
+requests = "*"
+flask-mail = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
