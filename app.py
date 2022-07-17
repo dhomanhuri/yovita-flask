@@ -132,6 +132,27 @@ def insert_user(data):
         else:
             return jsonify({'message': 'Something went wrong' }), 500
 
+def update_user(data):
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        id=data['id']
+        name = data['name']
+        passwd = data['password'].encode('utf-8')
+        salt = bcrypt.gensalt(rounds=16)
+        hashed = bcrypt.hashpw(passwd, salt).decode('utf-8')
+        cur.execute('UPDATE users SET nama=%s, password=%s WHERE id=%s',
+                    (name, hashed,id))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return jsonify({'message': 'success' }), 200
+    except mysql.connector.Error as err:
+        if 'Duplicate' in err.msg:
+            return jsonify({'message': ' already exist!' }), 401
+        else:
+            return jsonify({'message': 'Something went wrong' }), 500
+
 def _login(data):
     try: 
         conn = get_db_connection()
@@ -211,6 +232,13 @@ def login():
 def register():
     if request.method == 'POST':
         resp = insert_user(request.get_json())
+        return resp
+
+@app.route('/update', methods =['PUT'])
+@cross_origin()
+def update():
+    if request.method == 'POST':
+        resp = update_user(request.get_json())
         return resp
 
 @app.route('/confirm/<token>')
