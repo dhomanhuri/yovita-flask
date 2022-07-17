@@ -227,7 +227,7 @@ def confirm_email(token):
         conn.commit()
         cur.close()
         conn.close()
-        return redirect('https://combat-aircraft-readiness.onrender.com', code=200)
+        return redirect('https://yovita-reactjs.vercel.app', code=200)
     except:
         return jsonify({'message': 'Something went wrong' }), 500
 
