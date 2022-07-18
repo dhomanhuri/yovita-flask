@@ -153,13 +153,12 @@ def update_user(data):
         else:
             return jsonify({'message': 'Something went wrong' }), 500
 
-def delete_user(data):
+def delete_user(id):
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        email=data['email']
-        cur.execute('DELETE FROM users WHERE email=%s',
-                    (email))
+        cur.execute('DELETE FROM users WHERE id_user=%s',
+                    (id))
         conn.commit()
         cur.close()
         conn.close()
@@ -258,11 +257,11 @@ def update():
         resp = update_user(request.get_json())
         return resp
 
-@app.route('/delete', methods =['DELETE'])
+@app.route('/delete/<id>', methods =['DELETE'])
 @cross_origin()
-def delete():
+def delete(id):
     if request.method == 'DELETE':
-        resp = delete_user(request.get_json())
+        resp = delete_user(id)
         return resp
 
 @app.route('/confirm/<token>')
