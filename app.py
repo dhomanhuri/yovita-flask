@@ -167,7 +167,7 @@ def delete_user(id):
         if 'Duplicate' in err.msg:
             return jsonify({'message': ' already exist!' }), 401
         else:
-            return jsonify({'message': 'Something went wrong' }), 500
+            return jsonify({'message': 'Something went wrong'+err.msg }), 500
 
 def _login(data):
     try: 
