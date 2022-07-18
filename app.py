@@ -158,8 +158,8 @@ def delete_user(data):
         conn = get_db_connection()
         hapus=data['id']
         cur = conn.cursor()
-        cur.execute('DELETE FROM users WHERE id_user=%s',
-                    (str(hapus)))
+        queryy='DELETE FROM users WHERE id_user=%s',hapus
+        cur.execute(queryy)
         conn.commit()
         cur.close()
         conn.close()
@@ -168,7 +168,7 @@ def delete_user(data):
         if 'Duplicate' in err.msg:
             return jsonify({'message': ' already exist!' }), 401
         else:
-            return jsonify({'message': 'Something went wron'+str(err.msg) }), 500
+            return jsonify({'message': 'Something went wron'+queryy }), 500
 
 def hapus_user(id):
     try:
