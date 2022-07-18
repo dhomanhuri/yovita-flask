@@ -258,10 +258,10 @@ def update():
         resp = update_user(request.get_json())
         return resp
 
-@app.route('/delete', methods =['POST'])
+@app.route('/delete', methods =['DELETE'])
 @cross_origin()
 def delete():
-    if request.method == 'POST':
+    if request.method == 'DELETE':
         resp = delete_user(request.get_json())
         return resp
 
