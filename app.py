@@ -136,13 +136,13 @@ def update_user(data):
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        id=data['id']
+        email=data['email']
         name = data['name']
         passwd = data['password'].encode('utf-8')
         salt = bcrypt.gensalt(rounds=16)
         hashed = bcrypt.hashpw(passwd, salt).decode('utf-8')
-        cur.execute('UPDATE users SET nama=%s, password=%s WHERE id=%s',
-                    (name, hashed,id))
+        cur.execute('UPDATE users SET nama=%s, password=%s WHERE email=%s',
+                    (name, hashed,email))
         conn.commit()
         cur.close()
         conn.close()
@@ -237,7 +237,7 @@ def register():
 @app.route('/update', methods =['PUT'])
 @cross_origin()
 def update():
-    if request.method == 'POST':
+    if request.method == 'PUT':
         resp = update_user(request.get_json())
         return resp
 
