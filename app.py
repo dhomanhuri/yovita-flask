@@ -264,6 +264,13 @@ def delete(id):
         resp = delete_user(id)
         return resp
 
+@app.route('/hapus/<id>', methods =['DELETE'])
+@cross_origin()
+def delete(id):
+    if request.method == 'DELETE':
+        resp = id
+        return resp
+
 @app.route('/confirm/<token>')
 @cross_origin()
 def confirm_email(token):
