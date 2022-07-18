@@ -276,7 +276,7 @@ def update():
 
 @app.route('/delete', methods =['POST'])
 @cross_origin()
-def delete(id):
+def delete():
     if request.method == 'POST':
         resp = delete_user(request.get_json())
         return resp
