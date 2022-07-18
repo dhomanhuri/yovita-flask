@@ -169,6 +169,22 @@ def delete_user(id):
         else:
             return jsonify({'message': 'Something went wron'+str(err.msg) }), 500
 
+def hapus_user(id):
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('DELETE FROM users WHERE id_user=%s',
+                    (id))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return jsonify({'message': 'success' }), 200
+    except mysql.connector.Error as err:
+        if 'Duplicate' in err.msg:
+            return jsonify({'message': ' already exist!' }), 401
+        else:
+            return jsonify({'message': 'Something went wron'+str(id) }), 500
+
 def _login(data):
     try: 
         conn = get_db_connection()
@@ -266,9 +282,9 @@ def delete(id):
 
 @app.route('/hapus/<id>', methods =['DELETE'])
 @cross_origin()
-def delete(id):
+def hapus(id):
     if request.method == 'DELETE':
-        resp = id
+        resp = hapus_user(id)
         return resp
 
 @app.route('/confirm/<token>')
