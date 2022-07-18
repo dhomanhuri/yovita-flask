@@ -153,6 +153,23 @@ def update_user(data):
         else:
             return jsonify({'message': 'Something went wrong' }), 500
 
+def delete_user(data):
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        email=data['email']
+        cur.execute('DELETE FROM users WHERE email=%s',
+                    (email))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return jsonify({'message': 'success' }), 200
+    except mysql.connector.Error as err:
+        if 'Duplicate' in err.msg:
+            return jsonify({'message': ' already exist!' }), 401
+        else:
+            return jsonify({'message': 'Something went wrong' }), 500
+
 def _login(data):
     try: 
         conn = get_db_connection()
@@ -239,6 +256,13 @@ def register():
 def update():
     if request.method == 'PUT':
         resp = update_user(request.get_json())
+        return resp
+
+@app.route('/delete', methods =['POST'])
+@cross_origin()
+def delete():
+    if request.method == 'POST':
+        resp = delete_user(request.get_json())
         return resp
 
 @app.route('/confirm/<token>')
